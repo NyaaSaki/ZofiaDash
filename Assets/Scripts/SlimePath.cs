@@ -27,6 +27,16 @@ public class SlimePath : MonoBehaviour
 
     // Update is called once per frame
 
+    [SerializeField] bool Unsynced = false;
+    [SerializeField] SlimePath SyncParent;
+
+    public float ClockSyncTime(){
+        return  Mathf.Sin(Mathf.PI * t * freq);
+    }
+    public float ClockSyncSign(){
+        return  Mathf.Cos(Mathf.PI * t * freq);
+    }
+
     float getrate(float x){
         float f =   Mathf.Sin(Mathf.PI * x * freq);
         //Debug.Log(" sine: " + f);
@@ -36,6 +46,11 @@ public class SlimePath : MonoBehaviour
 
     void Update()
     {   if(freq ==0) return;
+        if(Unsynced) {
+            if(Mathf.Abs(SyncParent.ClockSyncTime())<0.05 && SyncParent.ClockSyncSign()<0){
+                Unsynced = false;}
+            else return;
+        }   
 
         t+= Time.deltaTime;
         dir = (Mathf.PI*freq*Mathf.Cos(Mathf.PI * t * freq) <0);

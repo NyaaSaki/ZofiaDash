@@ -29,7 +29,7 @@ public class MovingPlatform : MonoBehaviour
             
             other.GetComponent<PlayerController>().onPlatform = true;
             other.GetComponent<PlayerController>().platform = GetComponent<Rigidbody2D>();
-            if(state ==0) {state = 1;traveled = 0;buffer = -0.5f;GetComponent<AudioSource>().Play();}
+            if(state ==0 && speed >1) {state = 1;traveled = 0;buffer = -0.5f;GetComponent<AudioSource>().Play();}
             
 
             }

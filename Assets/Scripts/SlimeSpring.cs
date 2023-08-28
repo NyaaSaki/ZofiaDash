@@ -29,6 +29,7 @@ public class SlimeSpring : MonoBehaviour
             other.gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
             other.gameObject.GetComponent<Rigidbody2D>().AddForce(targ,ForceMode2D.Impulse);
             other.gameObject.GetComponent<PlayerController>().airtime= -0.5f;
+            other.gameObject.GetComponent<PlayerController>().isJumping = false;
             GetComponent<SpriteRenderer>().sprite = inactive;
             Invoke("deactivate",0.2f);
         }

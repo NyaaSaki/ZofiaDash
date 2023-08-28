@@ -16,6 +16,8 @@ public class GameSessionManager : MonoBehaviour
     [SerializeField] Sprite AssistOn;
     [SerializeField] Sprite AssistOff;
 
+    [SerializeField] GameObject Tips;
+
     // Start is called before the first frame update
 
     public bool AssistMode = false;
@@ -32,11 +34,20 @@ public class GameSessionManager : MonoBehaviour
         GetComponent<SpeedRunTimer>().resetClock();
     }
 
+    void HideTips(){
+        Tips.SetActive(false);
+    }
 
     void Start()
     {
-        if(FindObjectsOfType<GameSessionManager>().Length > 1) Destroy(gameObject);
-        else DontDestroyOnLoad(gameObject);
+        Tips.SetActive(true);
+        Invoke("HideTips",2f);
+        if(FindObjectsOfType<GameSessionManager>().Length > 1) {Destroy(gameObject); }
+        else {
+            
+            DontDestroyOnLoad(gameObject);
+            }
+        
         deathCountText.GetComponent<TextMeshProUGUI>().text = "0";
         blueCountText.GetComponent<TextMeshProUGUI>().text = "0";
         }

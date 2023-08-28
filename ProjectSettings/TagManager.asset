@@ -8,6 +8,7 @@ TagManager:
   - water
   - finish
   - quaso
+  - loadingScreen
   layers:
   - Default
   - TransparentFX

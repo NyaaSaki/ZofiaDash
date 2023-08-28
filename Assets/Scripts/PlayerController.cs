@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
         
         if(Phys.velocity.y < -termV) Phys.velocity = new Vector2(Phys.velocity.x,-termV);
         if(dashtime < 0.3f && Phys.velocity.y < 0.1f) Phys.velocity = new Vector2(Phys.velocity.x,0.1f);
-        Phys.AddForce( Mathf.Pow((Mathf.Abs(forceNeeded) * (isAcc?acc:(airtime<0.2f?10:tdecc))) ,velpower)* Time.deltaTime * Vector2.right *Mathf.Sign(forceNeeded) );
+        Phys.AddForce( Mathf.Pow((Mathf.Abs(forceNeeded) * ((isAcc&&!onPlatform)?acc:(airtime<0.2f?10:tdecc))) ,velpower)* Time.deltaTime * Vector2.right *Mathf.Sign(forceNeeded) );
         back.transform.localPosition = new Vector3(Mathf.Clamp(-Mathf.Abs(Phys.velocity.x)*0.03f,-0.06f,0f),0f,0f);
         turn();
     }
@@ -177,7 +177,7 @@ public class PlayerController : MonoBehaviour
 
         
     }
-    bool isJumping = false;
+    public bool isJumping = false;
 
     void OnJump(InputValue inp){
 
