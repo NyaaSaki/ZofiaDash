@@ -6,19 +6,23 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //__________ Zofia Components ________________
     [SerializeField]Vector2 moveInput;
-    
     Rigidbody2D Phys;
     BoxCollider2D coll;
-    [SerializeField] float grav = 3.5f;
     Animator anim;
+    [SerializeField] GameObject effDash;
+    [SerializeField] GameObject back;
 
+    //_______________ Jump ________________
 
+    [SerializeField] float grav = 3.5f;
     [SerializeField] float ctime= 0.5f;
     [SerializeField]public float coyote;
     [SerializeField]float jumpBuffer;
     [SerializeField]BoxCollider2D gnd;
+    [SerializeField] float termV = 2;
+
 
     void jumptick(){
         if(gnd.IsTouchingLayers(LayerMask.GetMask("Ground"))) {
@@ -33,55 +37,6 @@ public class PlayerController : MonoBehaviour
         airtime += Time.deltaTime;
     }
 
-
-    // Particle Systems
-    [SerializeField] GameObject effDash;
-    
-    
-
-
-    void Awake() {
-        Phys = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        coll = GetComponent<BoxCollider2D>();
-    }
-    void Start()
-    {   
-        coyote = 0.1f;
-        jumpBuffer = 0.5f;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-       Running();
-       jumpcut();
-       jumptick();
-
-       if(Input.GetKeyDown(KeyCode.E)) dash();
-    }
-
-    public bool onPlatform = false;
-    public Rigidbody2D platform;
-    private void checkPlatform()
-    {
-
-    }
-    [SerializeField] GameObject back;
-    void turn(){
-
-        bool isMoving = Mathf.Abs(moveInput.x) > Mathf.Epsilon;
-        if(isMoving && Mathf.Abs(Phys.velocity.x)>0.2){ 
-            transform.localScale = new Vector2(Mathf.Sign(Phys.velocity.x),1);
-            //back.transform.localScale = new Vector2(Mathf.Sign(Phys.velocity.x),1);
-            anim.SetBool("IsWalk",true);
-            }
-        else anim.SetBool("IsWalk",false);
-
-        if(!isMoving && moveInput.y<-Mathf.Epsilon) anim.SetBool("IsCrouch",true);
-        else anim.SetBool("IsCrouch",false);
-    }
-
     public void setcoyote(){
         coyote = 1f;
     }
@@ -90,9 +45,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeReference] GameObject jumpsound;
     [SerializeField] float jumpcap;
+
+    //________________ Dynamic Jumping
     void jumpcut(){
-
-
         if((jumpBuffer < 0.2f && coyote < ctime)){
             isJumping = true;
             if(Phys.velocity.y > jumpcap) Phys.AddForce(jumpforce * Vector2.up*0.4f, ForceMode2D.Impulse);
@@ -126,6 +81,40 @@ public class PlayerController : MonoBehaviour
        }
     }
 
+    void onJumpUp(){   
+        if(isJumping && Phys.velocity.y > 0){
+            Phys.AddForce(jumpforce * Phys.velocity.y * 0.05f * Vector2.down, ForceMode2D.Impulse);
+
+        }
+
+        isJumping = false;
+    }
+
+    
+    
+    
+    
+
+
+
+
+
+    void turn(){
+
+        bool isMoving = Mathf.Abs(moveInput.x) > Mathf.Epsilon;
+        if(isMoving && Mathf.Abs(Phys.velocity.x)>0.2){ 
+            transform.localScale = new Vector2(Mathf.Sign(Phys.velocity.x),1);
+            //back.transform.localScale = new Vector2(Mathf.Sign(Phys.velocity.x),1);
+            anim.SetBool("IsWalk",true);
+            }
+        else anim.SetBool("IsWalk",false);
+
+        if(!isMoving && moveInput.y<-Mathf.Epsilon) anim.SetBool("IsCrouch",true);
+        else anim.SetBool("IsCrouch",false);
+    }
+
+    
+    // __________________________ Horizontal Movement ___________
 
     [SerializeField] float acc = 0.1f;
     [SerializeField] float decc = 0.5f;
@@ -135,6 +124,9 @@ public class PlayerController : MonoBehaviour
     public float dashtime = 10f;
     public float airtime = 10f;
 
+    public bool onPlatform = false;
+    public Rigidbody2D platform;
+    
 
     void Running(){
         Vector2 tgtSpeed ;
@@ -172,17 +164,14 @@ public class PlayerController : MonoBehaviour
         turn();
     }
 
+    //_____inputs_________
     void OnMove(InputValue inp){
         moveInput = inp.Get<Vector2>();
-
-        
     }
     public bool isJumping = false;
 
     void OnJump(InputValue inp){
-
         jumpBuffer = 0.05f;
-
     }
 
     public void collect(string buff){
@@ -193,14 +182,6 @@ public class PlayerController : MonoBehaviour
 
 
 
-    void onJumpUp(){   
-        if(isJumping && Phys.velocity.y > 0){
-            Phys.AddForce(jumpforce * Phys.velocity.y * 0.05f * Vector2.down, ForceMode2D.Impulse);
-
-        }
-
-        isJumping = false;
-    }
 
     [SerializeField] public bool canDash;
     [SerializeField] float dashForce = 20f;
@@ -219,6 +200,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    [SerializeField] float termV = 2;
+    
+    //________________ Monobehaviour ___________________
+
+    void Awake() {
+        Phys = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        coll = GetComponent<BoxCollider2D>();
+    }
+    void Start()
+    {   
+        coyote = 0.1f;
+        jumpBuffer = 0.5f;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+       Running();
+       jumpcut();
+       jumptick();
+
+       if(Input.GetKeyDown(KeyCode.E)) dash();
+    }
 }
 
