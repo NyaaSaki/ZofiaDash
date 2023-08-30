@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     [SerializeReference] GameObject jumpsound;
     [SerializeField] float jumpcap;
 
-    //________________ Dynamic Jumping
+    //________________ Dynamic Jumping ______________________
     void jumpcut(){
         if((jumpBuffer < 0.2f && coyote < ctime)){
             isJumping = true;
@@ -67,14 +67,11 @@ public class PlayerController : MonoBehaviour
             jumpsound.GetComponent<AudioSource>().pitch = 1.3f;
             jumpsound.GetComponent<AudioSource>().Play();
         }
-
-        if(Phys.velocity.y <0){
-        Phys.gravityScale = grav * 3;
-       }
-        else if(Phys.velocity.y < 0.1 && Phys.velocity.y > -0.1){
-        Phys.gravityScale = grav * 0.2f;
-       }
-       else {Phys.gravityScale = grav;}
+        
+        if(PlaneShiftBar >0) Phys.gravityScale=0f;
+        else if(Phys.velocity.y <0) Phys.gravityScale = grav * 3;
+        else if(Phys.velocity.y < 0.1 && Phys.velocity.y > -0.1)  Phys.gravityScale = grav * 0.2f;
+        else Phys.gravityScale = grav;
 
        if(Input.GetKeyUp(KeyCode.Space)){
             onJumpUp();
@@ -96,7 +93,7 @@ public class PlayerController : MonoBehaviour
     
 
 
-
+    //_______________________Turn Sprite________________________
 
 
     void turn(){
@@ -127,10 +124,17 @@ public class PlayerController : MonoBehaviour
     public bool onPlatform = false;
     public Rigidbody2D platform;
     
+  
+
 
     void Running(){
         Vector2 tgtSpeed ;
-
+        if(PlaneShiftBar >0){
+            PlaneMovement();
+            GetComponent<SpriteRenderer>().color = PlaneColor;
+            return;
+        }
+        GetComponent<SpriteRenderer>().color = baseColor;
         if(Phys.velocity.y < 0.1 && Phys.velocity.y > -0.1 && !gnd.IsTouchingLayers(LayerMask.GetMask("Ground"))){
         tgtSpeed = moveInput*Speed*1.1f;
         }
@@ -164,7 +168,7 @@ public class PlayerController : MonoBehaviour
         turn();
     }
 
-    //_____inputs_________
+    //________________________inputs________________________
     void OnMove(InputValue inp){
         moveInput = inp.Get<Vector2>();
     }
@@ -200,6 +204,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //___________________Plane movement__________________
+
+    [SerializeField] float PlaneShiftBar = -1f;
+
+    [SerializeField] Color PlaneColor;
+    Color baseColor;
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.CompareTag("Plane")) {
+            PlaneShiftBar = 3f;
+            transform.position = other.transform.position;
+            }
+        else if(other.CompareTag("water")) {
+            PlaneShiftBar = -1f;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        PlaneShiftBar = -1f;
+    }
+
+    void PlaneMovement(){
+        Vector2 tgtSpeed = moveInput * Time.deltaTime * Speed * 170;
+        Vector2 RequiredForce = tgtSpeed - Phys.velocity;
+        if(RequiredForce.magnitude>1f) Phys.AddForce(RequiredForce*20);
+        PlaneShiftBar -=Time.deltaTime;
+    }
+
+
     
     //________________ Monobehaviour ___________________
 
@@ -207,6 +240,7 @@ public class PlayerController : MonoBehaviour
         Phys = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         coll = GetComponent<BoxCollider2D>();
+        baseColor = GetComponent<SpriteRenderer>().color;
     }
     void Start()
     {   

@@ -9,6 +9,7 @@ TagManager:
   - finish
   - quaso
   - loadingScreen
+  - Plane
   layers:
   - Default
   - TransparentFX
