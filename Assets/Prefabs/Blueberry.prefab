@@ -136,6 +136,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889cc77882bd04747803f89b7b529b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quaso: 0
+  unlocked: 0
+  portal: {fileID: 0}
+  MovingBase: 0
+  DynamicBase: {fileID: 0}
 --- !u!82 &6876487253843074767
 AudioSource:
   m_ObjectHideFlags: 0
@@ -148,7 +153,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ed93d394557ce35449d95796e5e20362, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.28
+  m_Volume: 0.077
   m_Pitch: 1
   Loop: 0
   Mute: 0

@@ -66,7 +66,7 @@ public class death : MonoBehaviour
         }
 
         if(other.gameObject.tag == "Respawn"){
-            //Debug.Log("Respawned!");
+            Debug.Log("Respawned!");
             respawn = transform.position;
 
         }
