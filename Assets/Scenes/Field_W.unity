@@ -1017,7 +1017,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -169799,7 +169799,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -309428,7 +309428,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -342456,6 +342456,63 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 17.95, y: 13.9}
   m_EdgeRadius: 0
+--- !u!1001 &748602263
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 414673346899258098, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
+      propertyPath: m_RootOrder
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 414673346899258098, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -41.594048
+      objectReference: {fileID: 0}
+    - target: {fileID: 414673346899258098, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.09323361
+      objectReference: {fileID: 0}
+    - target: {fileID: 414673346899258098, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 414673346899258098, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 414673346899258098, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 414673346899258098, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 414673346899258098, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 414673346899258098, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 414673346899258098, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 414673346899258098, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 414673346899258100, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
+      propertyPath: m_Name
+      value: GlobalLight
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: df9b19c4fdb935d439263a709c9f3b94, type: 3}
 --- !u!1001 &768767836
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -344671,7 +344728,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1727983153
 PrefabInstance:
@@ -345206,7 +345263,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -457063,7 +457120,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -502124,7 +502181,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1651466302867675801, guid: 961e67ec9747a8746947d169e3d3d42f, type: 3}
       propertyPath: m_RootOrder
-      value: 29
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1651466302867675801, guid: 961e67ec9747a8746947d169e3d3d42f, type: 3}
       propertyPath: m_LocalPosition.x

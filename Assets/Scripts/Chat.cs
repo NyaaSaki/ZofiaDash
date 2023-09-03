@@ -9,6 +9,8 @@ public class Chat : MonoBehaviour
     [SerializeField] GameObject DialogeBox;
     [SerializeField] TextMeshProUGUI ActorText;
     [SerializeField] TextMeshProUGUI ChatBox;
+    
+    [SerializeField] GameObject skipchat;
     [SerializeField] string ActorName = "Zofia";
     [SerializeField] string ChatContent = "wow saki u really did forget to put some content here didnt you";
     [SerializeField] RoomCamera cam;
@@ -17,23 +19,23 @@ public class Chat : MonoBehaviour
     void Start()
     {
         canClose = false;
+        skipchat.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
         cooldown -= Time.deltaTime;
-        if(cam.isZoomed && canClose && Input.anyKeyDown)
+        if(cam.isZoomed && canClose && Input.anyKey)
         {DialogeBox.SetActive(false);
         cam.isZoomed = false;
-        Zofia.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-        Zofia.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+        Zofia.GetComponent<PlayerController>().canMove = true;
         canClose = false;
         }
     }
 
     void AllowClose(){
-
+        skipchat.SetActive(true);
         canClose = true;
     }
 
@@ -42,13 +44,14 @@ public class Chat : MonoBehaviour
 
         if(cooldown > 0 || !other.CompareTag("Player")) return; 
         else {
+        skipchat.SetActive(false);
         canClose = false;
         DialogeBox.SetActive(true);
         ActorText.text = ActorName;
         ChatBox.text = ChatContent;
         cam.isZoomed = true;
-        Zofia.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX;
-        Invoke("AllowClose",3f);
+        Zofia.GetComponent<PlayerController>().canMove = false;
+        Invoke("AllowClose",2f);
         cooldown = 20;
         }
     }

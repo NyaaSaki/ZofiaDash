@@ -31,6 +31,8 @@ public class NextLevel : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.tag=="Player"){
             timer.IsValid = false;
+            GetComponent<AudioSource>().Play();
+            GetComponentInChildren<ParticleSystem>().Play();
             Item.GetComponent<HoldShawarma>().player = other.gameObject;
             Item.GetComponent<HoldShawarma>().isCompleted = true;
             FindObjectOfType<GameSessionManager>().saveLevel();
@@ -39,8 +41,7 @@ public class NextLevel : MonoBehaviour
             other.gameObject.GetComponent<Animator>().SetBool("IsCollect",true);
             Camera.GetComponent<Animator>().SetInteger("Room",-1);
             StartCoroutine("Next");
-            GetComponent<AudioSource>().Play();
-            GetComponentInChildren<ParticleSystem>().Play();
+
         }
 
     }

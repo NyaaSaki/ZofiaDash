@@ -47,3 +47,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BG
+    uniqueID: 3559091601
+    locked: 0
+  - name: Ground
+    uniqueID: 294609793
+    locked: 0
+  - name: HideLevel
+    uniqueID: 1591068485
+    locked: 0
+  - name: Zofia
+    uniqueID: 1576484641
+    locked: 0
+  - name: Collectibles
+    uniqueID: 1910236573
+    locked: 0
+  - name: Particles
+    uniqueID: 1705159991
+    locked: 0

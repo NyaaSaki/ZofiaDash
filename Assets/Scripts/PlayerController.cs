@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     Animator anim;
     [SerializeField] GameObject effDash;
     [SerializeField] GameObject back;
+    public bool canMove = true;
 
     //_______________ Jump ________________
 
@@ -129,6 +130,7 @@ public class PlayerController : MonoBehaviour
 
     void Running(){
         Vector2 tgtSpeed ;
+        
         if(PlaneShiftBar >0){
             PlaneMovement();
             GetComponent<SpriteRenderer>().color = PlaneColor;
@@ -138,6 +140,7 @@ public class PlayerController : MonoBehaviour
         if(Phys.velocity.y < 0.1 && Phys.velocity.y > -0.1 && !gnd.IsTouchingLayers(LayerMask.GetMask("Ground"))){
         tgtSpeed = moveInput*Speed*1.1f;
         }
+        else if(!canMove) tgtSpeed = new Vector2(0,0);
         else tgtSpeed = moveInput*Speed;
 
         if(moveInput.y<0) transform.localScale = new Vector3(1,0.9f,1);
