@@ -11,6 +11,7 @@ public class QuasoGate : MonoBehaviour
     }
     [SerializeField] Sprite unlocked;
     [SerializeField] GameObject quasoItem;
+    [SerializeField] int ID;
     bool opened = false;
     public float DisToKey;
     // Update is called once per frame
@@ -29,6 +30,7 @@ public class QuasoGate : MonoBehaviour
     }
     void openDoor(){
         GetComponent<SpriteRenderer>().sprite = unlocked;
+        FindObjectOfType<SaveFile>().SaveCollectible(ID,true);
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.CompareTag("Player") && opened){

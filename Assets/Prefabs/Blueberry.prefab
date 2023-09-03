@@ -248,7 +248,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889cc77882bd04747803f89b7b529b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  picked: {r: 0.5849056, g: 0.5254409, b: 0.32280168, a: 0.49803922}
   quaso: 0
+  ID: -1
   unlocked: 0
   portal: {fileID: 0}
   MovingBase: 0

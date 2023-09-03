@@ -56,6 +56,8 @@ public class GameSessionManager : MonoBehaviour
 
     public void onDie(){
         Deaths +=1;
+        int roomID = FindObjectOfType<NextLevel>().ID;
+        if(roomID != -1) FindObjectOfType<SaveFile>().logDeath(roomID);
         deathCountText.GetComponent<TextMeshProUGUI>().text = Deaths.ToString();
         }
 

@@ -6,7 +6,12 @@ public class CollectFollow : MonoBehaviour
 {
     // Start is called before the first frame update
     bool isPicked = false;
+
+    [SerializeField] Color picked;
+
     [SerializeField] bool quaso = false;
+    [SerializeField] int ID = -1;
+    
     public bool unlocked = false;
     public Transform portal;
 
@@ -16,6 +21,8 @@ public class CollectFollow : MonoBehaviour
     void Start()
     {
         spawn = transform.position;
+        if(ID == -1) return; 
+        if(FindObjectOfType<SaveFile>().CheckCollectible(ID,quaso)) GetComponent<SpriteRenderer>().color = picked;
     }
 
     Vector3 spawn;
@@ -73,9 +80,10 @@ public class CollectFollow : MonoBehaviour
     
 
         if(FindObjectOfType<BlueberryCollect>().collectTime <0 && !isTaken && isPicked && !quaso){
-        FindObjectOfType<GameSessionManager>().onPick();
-        Invoke("StartCollect",0.5f);
-        isTaken = true;
+            bool isNew = FindObjectOfType<SaveFile>().SaveCollectible(ID,quaso);
+            if(isNew) FindObjectOfType<GameSessionManager>().onPick();
+            Invoke("StartCollect",0.5f);
+            isTaken = true;
         }
     }
 

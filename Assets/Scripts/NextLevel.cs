@@ -11,7 +11,7 @@ public class NextLevel : MonoBehaviour
     [SerializeField] GameObject Camera;
 
     [SerializeField] SpeedRunTimer timer;
-
+    [SerializeField] public int ID = -1;
     void Start()
     {
         timer = FindObjectOfType<SpeedRunTimer>();
@@ -36,10 +36,14 @@ public class NextLevel : MonoBehaviour
             Item.GetComponent<HoldShawarma>().player = other.gameObject;
             Item.GetComponent<HoldShawarma>().isCompleted = true;
             FindObjectOfType<GameSessionManager>().saveLevel();
-            other.gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX;
 
+            other.gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX;
             other.gameObject.GetComponent<Animator>().SetBool("IsCollect",true);
-            Camera.GetComponent<Animator>().SetInteger("Room",-1);
+            if(ID == -1) Camera.GetComponent<Animator>().SetInteger("Room",-1);
+            else {
+                FindObjectOfType<RoomCamera>().isZoomed = true;
+                FindObjectOfType<SaveFile>().FinishLevel(ID);
+                }
             StartCoroutine("Next");
 
         }
