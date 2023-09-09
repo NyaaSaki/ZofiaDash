@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     //__________ Zofia Components ________________
-    [SerializeField]Vector2 moveInput;
+    [SerializeField] public Vector2 moveInput;
     Rigidbody2D Phys;
     BoxCollider2D coll;
     Animator anim;
@@ -126,10 +126,10 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D platform;
     
   
-
+    [SerializeField] Vector2 tgtSpeed;
 
     void Running(){
-        Vector2 tgtSpeed ;
+        
         
         if(PlaneShiftBar >0){
             PlaneMovement();
@@ -156,8 +156,9 @@ public class PlayerController : MonoBehaviour
         }
 
         float forceNeeded = tgtSpeed.x - Phys.velocity.x;
+        //Debug.Log("" + forceNeeded);
         float tdecc = decc;
-        if(moveInput.y< -Mathf.Epsilon) tdecc = decc*2;
+        //if(moveInput.y< -Mathf.Epsilon) tdecc = decc*2;
 
 
 

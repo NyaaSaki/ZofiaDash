@@ -12,7 +12,7 @@ public class SafetyHeadphones : MonoBehaviour
         
     }
 
-    private void OnTriggerStay2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other) {
         //Debug.Log(other.gameObject.layer + "entered");
         if(other.gameObject.layer == 3 && !other.isTrigger){
             isTouching = true;

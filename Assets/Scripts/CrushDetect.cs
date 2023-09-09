@@ -27,8 +27,16 @@ public class CrushDetect : MonoBehaviour
         isDown = down.isTouching;
         isRight = right.isTouching;
         isLeft = left.isTouching;
-        if(isRight && isLeft && !gameObject.GetComponent<death>().isDying ) gameObject.GetComponent<death>().Kill();
-        if(isUp && isDown && !gameObject.GetComponent<death>().isDying) gameObject.GetComponent<death>().Kill();
+        if(isRight && isLeft && !gameObject.GetComponent<death>().isDying ) {
+            gameObject.GetComponent<death>().Kill();
+            left.isTouching = false;
+            right.isTouching = false;
+            }
+        if(isUp && isDown && !gameObject.GetComponent<death>().isDying) {
+            gameObject.GetComponent<death>().Kill();
+            up.isTouching = false;
+            down.isTouching = false;
+            }
     }
 
     

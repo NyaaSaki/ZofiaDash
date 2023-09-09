@@ -13,6 +13,7 @@ public class MovingPlatform : MonoBehaviour
     private Rigidbody2D player;
 
     public int state = 0;
+    bool hasPlayer= false;
 
     // wait - 0 , move - 1 , restore - 2
     void Start()
@@ -26,7 +27,7 @@ public class MovingPlatform : MonoBehaviour
     public void OnTriggerStay2D(Collider2D other){
 
         if(other.CompareTag("Player")){
-            
+            hasPlayer = true;
             other.GetComponent<PlayerController>().onPlatform = true;
             other.GetComponent<PlayerController>().platform = GetComponent<Rigidbody2D>();
             if(state ==0 && speed >1) {state = 1;traveled = 0;buffer = -0.5f;GetComponent<AudioSource>().Play();}
@@ -37,6 +38,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other) {
         if(other.CompareTag("Player")){ 
+         hasPlayer = false;
          other.GetComponent<PlayerController>().onPlatform = false;
          other.GetComponent<PlayerController>().airtime = 0f;
         }
@@ -98,10 +100,19 @@ public class MovingPlatform : MonoBehaviour
                 state =2;
                 buffer = -2f;
                 GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity*0.0f;
+                if(hasPlayer && player.GetComponent<PlayerController>().moveInput.y<0.1){
+                    Invoke("bumpPlayer",0.03f);
+                    }
+                
                 }
             }
         
         }
         //if(hasPlayer){player.velocity+=new Vector2(GetComponent<Rigidbody2D>().velocity.x*playerCoeff,0f);}
+
+        void bumpPlayer(){
+            player.velocity = new Vector2(player.velocity.x,0f);
+            player.AddForce(player.velocity.y * 0.5f * Vector2.down , ForceMode2D.Impulse);
+        }
     }
 }
