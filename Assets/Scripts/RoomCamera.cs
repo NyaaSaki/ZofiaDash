@@ -49,8 +49,25 @@ public class RoomCamera : MonoBehaviour
         return CameraTarget;
     }
 
+    [SerializeField] public float stall = 0f;
+
+    public void LookAt(Vector3 loc){
+        stall = 3f;
+        CameraTarget = loc;
+    }
+
+    void movecam(){
+        Camera.transform.position = Vector3.MoveTowards(Camera.transform.position, CameraTarget, TransitionSpeed);
+    }
+
     void Update()
-    {
+    {   
+        if(stall>0f){
+            stall -= Time.deltaTime;
+            movecam();
+            return;
+        }
+        
         Vector3Int GetCell = roomGrid.WorldToCell(Zofia.transform.position);
 
         if(CorridorA.HasTile(GetCell)){
@@ -66,11 +83,12 @@ public class RoomCamera : MonoBehaviour
             CameraTarget = roomGrid.GetCellCenterWorld(GetCell);
             }
 
+    
         if(isZoomed) {CameraTarget = Zofia.transform.position + new Vector3(1,2,-2);
          Camera.GetComponent<Camera>().orthographicSize = 6;
          } 
         else {Camera.GetComponent<Camera>().orthographicSize = 7.965f;}
 
-        Camera.transform.position = Vector3.MoveTowards(Camera.transform.position, CameraTarget, TransitionSpeed);
+        movecam();
     }
 }

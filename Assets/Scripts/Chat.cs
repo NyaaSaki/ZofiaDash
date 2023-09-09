@@ -15,6 +15,11 @@ public class Chat : MonoBehaviour
     [SerializeField] string ChatContent = "wow saki u really did forget to put some content here didnt you";
     [SerializeField] RoomCamera cam;
     [SerializeField] GameObject Zofia;
+
+    [SerializeField] Vector3 CamTarget;
+    [SerializeField] bool hasTarget;
+
+
     bool canClose;
     void Start()
     {
@@ -26,7 +31,8 @@ public class Chat : MonoBehaviour
     void Update()
     {
         cooldown -= Time.deltaTime;
-        if(cam.isZoomed && canClose && Input.anyKey)
+
+        if(canClose && Input.anyKey)
         {DialogeBox.SetActive(false);
         cam.isZoomed = false;
         Zofia.GetComponent<PlayerController>().canMove = true;
@@ -49,7 +55,8 @@ public class Chat : MonoBehaviour
         DialogeBox.SetActive(true);
         ActorText.text = ActorName;
         ChatBox.text = ChatContent;
-        cam.isZoomed = true;
+        if(hasTarget) cam.LookAt(CamTarget);
+        else cam.isZoomed = true;
         Zofia.GetComponent<PlayerController>().canMove = false;
         Invoke("AllowClose",2f);
         cooldown = 20;

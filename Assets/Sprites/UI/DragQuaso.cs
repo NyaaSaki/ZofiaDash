@@ -24,6 +24,7 @@ public class DragQuaso : MonoBehaviour , IDragHandler
     void Update()
     {   
       if(GetComponent<Image>().enabled){return;}
+      
       if(IsQuaso){
         if(save.CheckCollectible(Room,true)) GetComponent<Image>().enabled = true;
       }

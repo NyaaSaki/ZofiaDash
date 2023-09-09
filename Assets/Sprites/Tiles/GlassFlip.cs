@@ -47,9 +47,9 @@ public class GlassFlip : MonoBehaviour
         }
         else{
             BlockA.GetComponent<Tilemap>().color = Inactive;
-            BlockA.GetComponent<FlipCheck>().OffCheck();
             BlockB.GetComponent<Tilemap>().color = ColorB;
             BlockB.GetComponent<TilemapCollider2D>().enabled = true;
+            BlockA.GetComponent<FlipCheck>().OffCheck();
             GetComponent<AudioSource>().pitch = 1.2f;
             if(playSound) GetComponent<AudioSource>().Play();
         }
