@@ -69,19 +69,25 @@ public class RoomCamera : MonoBehaviour
         }
         
         Vector3Int GetCell = roomGrid.WorldToCell(Zofia.transform.position);
-
-        if(CorridorA.HasTile(GetCell)){
+        if(CorridorA&&CorridorB){
+            if(CorridorA.HasTile(GetCell)){
             AdvancedCam = true;
             CameraTarget = limitCam(GetCell,CorridorA);
         }
-        else if(CorridorB.HasTile(GetCell)){
+            else if(CorridorB.HasTile(GetCell)){
             AdvancedCam = true;
             CameraTarget = limitCam(GetCell,CorridorB);
+        }
+            else {
+            AdvancedCam = false;
+            CameraTarget = roomGrid.GetCellCenterWorld(GetCell);
+            }
         }
         else {
             AdvancedCam = false;
             CameraTarget = roomGrid.GetCellCenterWorld(GetCell);
             }
+
 
     
         if(isZoomed) {CameraTarget = Zofia.transform.position + new Vector3(1,2,-2);

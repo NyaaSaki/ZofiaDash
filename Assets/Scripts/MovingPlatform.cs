@@ -20,7 +20,7 @@ public class MovingPlatform : MonoBehaviour
     {
         targ = pointB.position;
         targDir = calcDir();
-        transform.position = pointA.transform.position;
+        pointA.transform.position = transform.position;
     }
 
     // Update is called once per frame
@@ -34,6 +34,10 @@ public class MovingPlatform : MonoBehaviour
             
 
             }
+        if(other.GetComponent<ShawarmaTruck>() && (state == 1 || state == 2) && buffer > 0.0f){
+            other.GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity;
+        }
+        else if(state ==0 && speed >1 && other.GetComponent<ShawarmaTruck>()) {state = 1;traveled = 0;buffer = -0.5f;GetComponent<AudioSource>().Play();}
     }
 
     private void OnTriggerExit2D(Collider2D other) {
@@ -89,6 +93,7 @@ public class MovingPlatform : MonoBehaviour
                 state = 0;
                 buffer = -0.2f;
                 GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity*0.0f;
+                transform.position = pointA.transform.position;
                 }
             }
         if(Vector2.Distance(pointB.transform.position,gameObject.transform.position)<0.5f){ 
@@ -100,6 +105,7 @@ public class MovingPlatform : MonoBehaviour
                 state =2;
                 buffer = -2f;
                 GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity*0.0f;
+                transform.position = pointB.transform.position;
                 if(hasPlayer && player.GetComponent<PlayerController>().moveInput.y<0.1){
                     Invoke("bumpPlayer",0.03f);
                     }
