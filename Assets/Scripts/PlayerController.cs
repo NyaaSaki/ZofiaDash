@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour
     void jumptick(){
         if(gnd.IsTouchingLayers(LayerMask.GetMask("Ground"))) {
         coyote = 0;
-        //canDash = true;
+        canShoot = true;
         anim.SetBool("InAir",false);
         }
         else anim.SetBool("InAir",true);
@@ -58,23 +59,15 @@ public class PlayerController : MonoBehaviour
             jumpsound.GetComponent<AudioSource>().pitch = 1;
             jumpsound.GetComponent<AudioSource>().Play();
         }
-        else if(doubleJump && !isJumping && jumpBuffer < 0.1f){
-            if(Phys.velocity.y <0.5) Phys.velocity = new Vector2(Phys.velocity.x,0.5f);
-            Phys.AddForce(jumpforce*0.9f * Vector2.up, ForceMode2D.Impulse);
-            Debug.Log("double jumped");
-            jumpBuffer = 1f;
-            doubleJump = false;
-            isJumping = true;
-            jumpsound.GetComponent<AudioSource>().pitch = 1.3f;
-            jumpsound.GetComponent<AudioSource>().Play();
-        }
+
         
         if(PlaneShiftBar >0) Phys.gravityScale=0f;
         else if(Phys.velocity.y <0) Phys.gravityScale = grav * 3;
         else if(Phys.velocity.y < 0.1 && Phys.velocity.y > -0.1)  Phys.gravityScale = grav * 0.2f;
+        else if(dashtime<-0.3f) Phys.gravityScale = grav * 0.6f;
         else Phys.gravityScale = grav;
 
-       if(Input.GetKeyUp(KeyCode.Space)){
+       if(Input.GetKeyUp(KeyCode.Space) & dashtime > 2f){
             onJumpUp();
        }
     }
@@ -88,8 +81,18 @@ public class PlayerController : MonoBehaviour
         isJumping = false;
     }
 
-    
-    
+    //______________________________________ Umbrella _________________
+    [SerializeField] bool hasUmbrella = false;
+    [SerializeField] SpriteRenderer UmbrellaSprite;
+    float modified_TermV;
+
+    void checkUmbrella(){
+        if(hasUmbrella && Input.GetKey(KeyCode.Mouse1)){
+            UmbrellaSprite.enabled = true;
+            modified_TermV = termV * (0.1f - moveInput.y > Mathf.Epsilon?0f:0.5f);
+        }
+        else {modified_TermV = termV; UmbrellaSprite.enabled = false;}
+    }
     
     
 
@@ -101,13 +104,13 @@ public class PlayerController : MonoBehaviour
 
         bool isMoving = Mathf.Abs(moveInput.x) > Mathf.Epsilon;
         if(isMoving && Mathf.Abs(Phys.velocity.x)>0.2){ 
-            transform.localScale = new Vector2(Mathf.Sign(Phys.velocity.x),1);
-            //back.transform.localScale = new Vector2(Mathf.Sign(Phys.velocity.x),1);
+            if(Mathf.Abs(Phys.velocity.x)>2) transform.localScale = new Vector2(Mathf.Sign(Phys.velocity.x),1);
+            
             anim.SetBool("IsWalk",true);
             }
         else anim.SetBool("IsWalk",false);
 
-        if(!isMoving && moveInput.y<-Mathf.Epsilon) anim.SetBool("IsCrouch",true);
+        if(moveInput.y<-Mathf.Epsilon) anim.SetBool("IsCrouch",true);
         else anim.SetBool("IsCrouch",false);
     }
 
@@ -140,11 +143,14 @@ public class PlayerController : MonoBehaviour
         if(Phys.velocity.y < 0.1 && Phys.velocity.y > -0.1 && !gnd.IsTouchingLayers(LayerMask.GetMask("Ground"))){
         tgtSpeed = moveInput*Speed*1.1f;
         }
+
         else if(!canMove) tgtSpeed = new Vector2(0,0);
+        else if(dashtime < 0f) tgtSpeed = Phys.velocity * 0.95f;
+        else if(dashtime < 0.3f) tgtSpeed = Phys.velocity * 0.7f + moveInput*Speed;
         else tgtSpeed = moveInput*Speed;
 
-        if(moveInput.y<0) transform.localScale = new Vector3(1,0.9f,1);
-        else transform.localScale = new Vector3(1,1f,1);
+        if(moveInput.y<0) transform.localScale = new Vector3(transform.localScale.x,0.9f,1);
+        else transform.localScale = new Vector3(transform.localScale.x,1f,1);
 
         if(onPlatform){
             tgtSpeed += new Vector2(platform.velocity.x,0f);
@@ -165,12 +171,36 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("IsWalk",true);
         bool isAcc = (Mathf.Abs(moveInput.x) > Mathf.Epsilon);
         
-        if(Phys.velocity.y < -termV) Phys.velocity = new Vector2(Phys.velocity.x,-termV);
-        if(dashtime < 0.3f && Phys.velocity.y < 0.1f) Phys.velocity = new Vector2(Phys.velocity.x,0.1f);
+        if(Phys.velocity.y < -modified_TermV) Phys.velocity = new Vector2(Phys.velocity.x,-modified_TermV);
+        //if(dashtime < 0.3f && Phys.velocity.y < 0.1f) Phys.velocity = new Vector2(Phys.velocity.x,0.1f);
         Phys.AddForce( Mathf.Pow((Mathf.Abs(forceNeeded) * ((isAcc&&!onPlatform)?acc:(airtime<0.2f?10:tdecc))) ,velpower)* Time.deltaTime * Vector2.right *Mathf.Sign(forceNeeded) );
         back.transform.localPosition = new Vector3(Mathf.Clamp(-Mathf.Abs(Phys.velocity.x)*0.03f,-0.06f,0f),0f,0f);
         turn();
     }
+
+    //__________________________Pulse__________________________________
+
+    public void pulse(Vector3 direction , int type = 1){
+        freeze = false;
+        Phys.bodyType = RigidbodyType2D.Dynamic;
+        if (activeFlr) {
+            activeFlr.GetComponent<BloomLaunch>().launch();
+            activeFlr = null;
+            type = 2;
+            direction = direction * 1.2f;
+            }
+        if (type ==1 || type == 2) canShoot = false;
+        Vector2 perpendicular = Vector2.Perpendicular(new Vector2(direction.x,direction.y).normalized);
+        Vector2 oldMove = perpendicular * Vector2.Dot(Phys.velocity , perpendicular);
+        if(type != 2) Phys.velocity = oldMove;
+        if(moveInput.y<0) Phys.AddForce(-direction * dashForce * 0.02f ,  ForceMode2D.Impulse);
+        else Phys.AddForce(-direction * dashForce/4 ,  ForceMode2D.Impulse);
+        dashtime = -0.1f * direction.magnitude;
+        airtime = 0f;
+        Invoke("setcoyote",0.1f);
+        return;
+    }
+
 
     //________________________inputs________________________
     void OnMove(InputValue inp){
@@ -206,6 +236,21 @@ public class PlayerController : MonoBehaviour
             canDash = false;
             GetComponent<AudioSource>().Play();
         }
+    }
+
+    public bool canShoot = true;
+
+    [SerializeField] GameObject aim;
+
+    //__________________ BloomFlower _________________________
+
+    public GameObject activeFlr;
+    public void BloomFlower(GameObject flr){
+        activeFlr = flr;
+        Phys.velocity = Vector2.zero ;
+        freeze = true;
+        canShoot = true;
+        transform.position = flr.transform.position + new Vector3(0f, -0.0f, 0f);
     }
 
     //___________________Plane movement__________________
@@ -252,14 +297,27 @@ public class PlayerController : MonoBehaviour
         jumpBuffer = 0.5f;
     }
 
+    [SerializeField] public bool freeze = false;
     // Update is called once per frame
     void Update()
-    {
-       Running();
-       jumpcut();
-       jumptick();
+    {   checkUmbrella();
 
-       if(Input.GetKeyDown(KeyCode.E)) dash();
+        if(!freeze) {
+            GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic ;
+            jumpcut();
+            jumptick();
+            if(Input.GetKeyDown(KeyCode.E)) dash();
+        }
+        else  GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+      
+       
     }
+
+    void FixedUpdate(){
+        Running();
+
+       
+    }
+
 }
 

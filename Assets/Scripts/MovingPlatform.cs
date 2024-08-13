@@ -59,6 +59,7 @@ public class MovingPlatform : MonoBehaviour
 
     [SerializeField] float playerCoeff;
 
+#pragma warning disable UNT0033 // Incorrect message case
     void reset(){
         state = 0;
         transform.position = pointA.position;
@@ -67,6 +68,7 @@ public class MovingPlatform : MonoBehaviour
         transform.position = pointA.transform.position;
 
     }
+#pragma warning restore UNT0033 // Incorrect message case
 
     void Update(){
         if(FindObjectOfType<death>().isDying){
@@ -106,9 +108,6 @@ public class MovingPlatform : MonoBehaviour
                 buffer = -2f;
                 GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity*0.0f;
                 transform.position = pointB.transform.position;
-                if(hasPlayer && player.GetComponent<PlayerController>().moveInput.y<0.1){
-                    Invoke("bumpPlayer",0.03f);
-                    }
                 
                 }
             }
@@ -116,9 +115,6 @@ public class MovingPlatform : MonoBehaviour
         }
         //if(hasPlayer){player.velocity+=new Vector2(GetComponent<Rigidbody2D>().velocity.x*playerCoeff,0f);}
 
-        void bumpPlayer(){
-            player.velocity = new Vector2(player.velocity.x,0f);
-            player.AddForce(player.velocity.y * 0.5f * Vector2.down , ForceMode2D.Impulse);
-        }
+
     }
 }

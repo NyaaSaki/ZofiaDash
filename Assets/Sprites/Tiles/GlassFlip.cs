@@ -16,7 +16,7 @@ public class GlassFlip : MonoBehaviour
     [SerializeField] GameObject Zofia;
 
     bool IsA = false;
-    float clock = 0f;
+    [SerializeField] float clock = 0f;
     void Start()
     {
         ColorA = BlockA.GetComponent<Tilemap>().color;
@@ -37,10 +37,11 @@ public class GlassFlip : MonoBehaviour
             return;
         }
         IsA = !IsA;
+        
         if(IsA){
             BlockA.GetComponent<Tilemap>().color = ColorA;
-            BlockA.GetComponent<TilemapCollider2D>().enabled = true;
             BlockB.GetComponent<Tilemap>().color = Inactive;
+            BlockA.GetComponent<TilemapCollider2D>().enabled = true;
             BlockB.GetComponent<FlipCheck>().OffCheck();
             GetComponent<AudioSource>().pitch = 0.6f;
             if(playSound) GetComponent<AudioSource>().Play();

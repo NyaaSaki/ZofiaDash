@@ -40,8 +40,8 @@ public class GameSessionManager : MonoBehaviour
 
     void Start()
     {
-        Tips.SetActive(true);
-        Invoke("HideTips",2f);
+        //Tips.SetActive(true);
+        //Invoke("HideTips",2f);
         if(FindObjectsOfType<GameSessionManager>().Length > 1) {Destroy(gameObject); }
         else {
             

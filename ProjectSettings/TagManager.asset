@@ -10,6 +10,9 @@ TagManager:
   - quaso
   - loadingScreen
   - Plane
+  - target
+  - bomb
+  - light
   layers:
   - Default
   - TransparentFX
@@ -49,6 +52,9 @@ TagManager:
     locked: 0
   - name: BG
     uniqueID: 3559091601
+    locked: 0
+  - name: Thorn
+    uniqueID: 4029295873
     locked: 0
   - name: Ground
     uniqueID: 294609793

@@ -22,7 +22,7 @@ public class CollectFollow : MonoBehaviour
     {
         spawn = transform.position;
         if(ID == -1) return; 
-        if(FindObjectOfType<SaveFile>().CheckCollectible(ID,quaso)) GetComponent<SpriteRenderer>().color = picked;
+        if(FindObjectOfType<SaveFile>() != null) if(FindObjectOfType<SaveFile>().CheckCollectible(ID,quaso)) GetComponent<SpriteRenderer>().color = picked;
     }
 
     Vector3 spawn;
@@ -74,7 +74,7 @@ public class CollectFollow : MonoBehaviour
             if(minDist > 0f) transform.position = Vector3.MoveTowards(transform.position,targ.transform.position +(quaso? new Vector3(0f,1f):new Vector3(0f,0f)),minDist*5f*Time.deltaTime);
         }
         else{
-            transform.position = Vector3.MoveTowards(transform.position,spawn,Vector3.Distance(transform.position,spawn)*10f*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, spawn, Vector3.Distance(transform.position,spawn)*10f*Time.deltaTime);
         }
 
     

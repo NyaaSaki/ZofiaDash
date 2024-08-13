@@ -18,13 +18,14 @@ public class Chat : MonoBehaviour
 
     [SerializeField] Vector3 CamTarget;
     [SerializeField] bool hasTarget;
-
+    private bool seen = false;
 
     bool canClose;
     void Start()
     {
         canClose = false;
         skipchat.SetActive(false);
+        DialogeBox.SetActive(false);
     }
 
     // Update is called once per frame
@@ -48,8 +49,9 @@ public class Chat : MonoBehaviour
     float cooldown = -1f;
     private void OnTriggerEnter2D(Collider2D other) {
 
-        if(cooldown > 0 || !other.CompareTag("Player")) return; 
+        if(seen || !other.CompareTag("Player")) return; 
         else {
+        seen= true;
         skipchat.SetActive(false);
         canClose = false;
         DialogeBox.SetActive(true);

@@ -44,8 +44,8 @@ public class SlimePath : MonoBehaviour
         return (1 + Mathf.Atan(4*f)/1.3258f)/2;
     }
 
-    void Update()
-    {   if(freq ==0) return;
+    void FixedUpdate()
+    {   if(freq ==0 || goal == null) return;
         if(Unsynced) {
             if(Mathf.Abs(SyncParent.ClockSyncTime())<0.05 && SyncParent.ClockSyncSign()<0){
                 Unsynced = false;}

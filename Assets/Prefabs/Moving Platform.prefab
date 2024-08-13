@@ -232,7 +232,6 @@ GameObject:
   - component: {fileID: 4327985958654982009}
   - component: {fileID: 4327985958654982008}
   - component: {fileID: 4327985958654982015}
-  - component: {fileID: 4327985958654982011}
   - component: {fileID: 4327985958654981988}
   - component: {fileID: 5341630193551587661}
   - component: {fileID: 5260875201153025207}
@@ -345,7 +344,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4327985958654982014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71b0987d3f040474d9667038763e4855, type: 3}
+  m_Script: {fileID: 11500000, guid: 0bc8ff88fa8669b42a837b122f7c576d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pointA: {fileID: 4327985958618055027}
@@ -358,32 +357,6 @@ MonoBehaviour:
   traveled: 0
   buffer: 0
   playerCoeff: 0.2
---- !u!61 &4327985958654982011
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4327985958654982014}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.71}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4, y: 1}
-    newSize: {x: 8, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 3.79, y: 0.61}
-  m_EdgeRadius: 0
 --- !u!50 &4327985958654981988
 Rigidbody2D:
   serializedVersion: 4
