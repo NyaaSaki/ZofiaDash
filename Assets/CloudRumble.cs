@@ -4,6 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class CloudRumble : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -25,10 +26,11 @@ public class CloudRumble : MonoBehaviour
     void Update()
     {
         if( (targetV - target).magnitude < min ){
+            smoothV = smoothV*0.5f;
             targetV =new  Vector2(Random.Range(-MaxX , +MaxX) , Random.Range(-MaxY , +MaxY));
         }
         else{
-            smoothV = (smoothV*99 + (targetV - target).magnitude) /100;
+            smoothV = (smoothV*99 + Mathf.Min((targetV - target).magnitude , 0.03f) ) /100f;
             target = Vector2.MoveTowards(target , targetV , smoothV/200);
             img.uvRect = new Rect(target,img.uvRect.size);
         }

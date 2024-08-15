@@ -82,9 +82,11 @@ public class PlayerController : MonoBehaviour
     }
 
     //______________________________________ Umbrella _________________
-    [SerializeField] bool hasUmbrella = false;
+    [SerializeField] public bool hasUmbrella = false;
     [SerializeField] SpriteRenderer UmbrellaSprite;
     float modified_TermV;
+
+    [SerializeField] public bool GravUp = false;
 
     void checkUmbrella(){
         if(hasUmbrella && Input.GetKey(KeyCode.Mouse1)){
@@ -92,7 +94,12 @@ public class PlayerController : MonoBehaviour
             modified_TermV = termV * (0.1f - moveInput.y > Mathf.Epsilon?0f:0.5f);
         }
         else {modified_TermV = termV; UmbrellaSprite.enabled = false;}
+
+        if(GravUp){
+            modified_TermV = modified_TermV/2 - 4;
+        }
     }
+    
     
     
 
@@ -192,7 +199,10 @@ public class PlayerController : MonoBehaviour
         if (type ==1 || type == 2) canShoot = false;
         Vector2 perpendicular = Vector2.Perpendicular(new Vector2(direction.x,direction.y).normalized);
         Vector2 oldMove = perpendicular * Vector2.Dot(Phys.velocity , perpendicular);
-        if(type != 2) Phys.velocity = oldMove;
+        if(type == 1) Phys.velocity = oldMove;
+        else if(type == 3) {
+            Phys.velocity = new Vector2(Phys.velocity.x , Mathf.Max(Phys.velocity.y , 0.1f)); 
+        }
         if(moveInput.y<0) Phys.AddForce(-direction * dashForce * 0.02f ,  ForceMode2D.Impulse);
         else Phys.AddForce(-direction * dashForce/4 ,  ForceMode2D.Impulse);
         dashtime = -0.1f * direction.magnitude;
@@ -208,8 +218,18 @@ public class PlayerController : MonoBehaviour
     }
     public bool isJumping = false;
 
+
+    [SerializeField] SafetyHeadphones SL;
+    [SerializeField] SafetyHeadphones SR;
+
+    public bool hasPaws = false;
     void OnJump(InputValue inp){
         jumpBuffer = 0.05f;
+        if(hasPaws){
+            if(SL.isTouching && coyote > 0.1f) pulse(new Vector3(-1.4f* transform.localScale.x, -1.4f), 3 );
+            else if(SR.isTouching && coyote > 0.1f) pulse(new Vector3(1.4f* transform.localScale.x, -1.4f), 3 );
+        }
+        
     }
 
     public void collect(string buff){
@@ -306,7 +326,7 @@ public class PlayerController : MonoBehaviour
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic ;
             jumpcut();
             jumptick();
-            if(Input.GetKeyDown(KeyCode.E)) dash();
+            if(Input.GetKeyDown(KeyCode.E)) FindObjectOfType<EquipSelect>().scroll(GetComponent<PlayerController>());
         }
         else  GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
       

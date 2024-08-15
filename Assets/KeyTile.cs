@@ -27,18 +27,15 @@ public class KeyTile : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if(activated == false){
-            openTime +=0.01f;
-            if(openTime > 3.2f) {
-                openTime = 2f; 
-                GetComponent<SpriteRenderer>().sprite = buttonFlicker;}
-
-            else if(openTime>2.5f) { GetComponent<SpriteRenderer>().sprite = buttonOn; }
+    {   
+        if(activated == false){ 
+            if(FindObjectOfType<TimeController>().Day) GetComponent<SpriteRenderer>().sprite = buttonOn;
+            else GetComponent<SpriteRenderer>().sprite = buttonFlicker;
         }
         if(activated && openTime>-1f){
             openTime -= 0.1f;
         }
+
         if(openTime<0f) {
             door.GetComponent<SpriteRenderer>().sprite = open;
             GetComponent<SpriteRenderer>().sprite = buttonOff;
@@ -46,9 +43,12 @@ public class KeyTile : MonoBehaviour
     }
 
     public void onHit(){
-        activated = true;
-        door.GetComponent<SpriteRenderer>().sprite = mid; 
-        door.GetComponent<PolygonCollider2D>().enabled = false;
-        GetComponent<SpriteRenderer>().sprite = buttonTriggered;
+        if(FindObjectOfType<TimeController>().Day){
+            activated = true;
+            door.GetComponent<SpriteRenderer>().sprite = mid; 
+            door.GetComponent<PolygonCollider2D>().enabled = false;
+            GetComponent<SpriteRenderer>().sprite = buttonTriggered;
+        }
+        
     }
 }

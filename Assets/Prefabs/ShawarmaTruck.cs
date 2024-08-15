@@ -17,14 +17,14 @@ public class ShawarmaTruck : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("Player")){
-            transform.localScale = new Vector3(transform.localScale.x,0.9f,1);
+            transform.localScale = new Vector3(transform.localScale.x,0.35f,1);
             transform.position = transform.position + new Vector3(0,-0.1f,0);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
                 if(other.CompareTag("Player")){
-            transform.localScale = new Vector3(transform.localScale.x,1,1);
+            transform.localScale = new Vector3(transform.localScale.x,0.4f,1);
         }
     }
 }
