@@ -62,6 +62,10 @@ public class RoomCamera : MonoBehaviour
         Camera.transform.position = Vector3.MoveTowards(Camera.transform.position, CameraTarget, TransitionSpeed);
     }
 
+    public void jumpCam(){
+        Camera.transform.position = CameraTarget;
+    }
+
 
     void Update()
     {   

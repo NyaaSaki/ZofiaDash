@@ -320,7 +320,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public bool freeze = false;
     // Update is called once per frame
     void Update()
-    {   checkUmbrella();
+    {   
+      
+       
+    }
+
+    void FixedUpdate(){
+        Running();
+
+       checkUmbrella();
 
         if(!freeze) {
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic ;
@@ -329,14 +337,6 @@ public class PlayerController : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.E)) FindObjectOfType<EquipSelect>().scroll(GetComponent<PlayerController>());
         }
         else  GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-      
-       
-    }
-
-    void FixedUpdate(){
-        Running();
-
-       
     }
 
 }

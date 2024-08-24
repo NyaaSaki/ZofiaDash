@@ -16,6 +16,8 @@ public class GameSessionManager : MonoBehaviour
     [SerializeField] Sprite AssistOn;
     [SerializeField] Sprite AssistOff;
 
+    [SerializeField] public float GameSpeed = 1f; 
+
     [SerializeField] GameObject Tips;
 
     // Start is called before the first frame update
@@ -74,13 +76,13 @@ public class GameSessionManager : MonoBehaviour
         AssistMode= !AssistMode;
         if(AssistMode) {
             AssistButton.GetComponent<Image>().sprite = AssistOn;
-            Time.timeScale = 0.7f;
+            GameSpeed = 0.7f;
             GetComponent<SpeedRunTimer>().invalidate();
         
         }
         else {
             AssistButton.GetComponent<Image>().sprite = AssistOff;
-            Time.timeScale = 1;
+            GameSpeed = 1;
             }
     }
     public void toogleMute(){

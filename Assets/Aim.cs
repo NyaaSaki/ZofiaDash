@@ -37,7 +37,7 @@ public class Aim : MonoBehaviour
     private bool ChargingShot = false;
     void ChargeShot(){
         
-        if(Input.GetMouseButton(0) && laser.enabled == false){
+        if(Input.GetMouseButton(0)){
             crossair.GetComponent<SpriteRenderer>().enabled = true;
 
             if(zofia.GetComponent<PlayerController>().canShoot == false && laser.enabled == false){
@@ -49,6 +49,7 @@ public class Aim : MonoBehaviour
                 crossair.GetComponent<SpriteRenderer>().color = Active;
                 if(laserCharge<0f) laserCharge = 0.3f;
                 else if(laserCharge<1f) laserCharge += 0.05f;
+                
                 ChargingShot = true;
             }
             
@@ -69,10 +70,13 @@ public class Aim : MonoBehaviour
             else laserCharge -= DischargeRate;
         }
 
-        crossair.transform.localScale = new Vector3(0.7f , setCrossair() * 0.7f/3 ,1);
+        crossair.transform.localScale = new Vector3(0.7f , setCrossair() * 2f/3 ,0.8f);
     }
 
+
+
     int setCrossair(){
+        Time.timeScale = FindObjectOfType<GameSessionManager>().GameSpeed * (1-(laserCharge * 0.7f));
         if(laserCharge<0.3) return 0;
         else if(laserCharge<0.6) return 1;
         else if(laserCharge<0.9) return 2;
@@ -92,7 +96,6 @@ public class Aim : MonoBehaviour
         if (Physics2D.Raycast(transform.position, transform.right, 120f ,LayerMask.GetMask("Ground"))){
             
             RaycastHit2D _hit = Physics2D.Raycast(transform.position, transform.right , 120f ,LayerMask.GetMask("Ground"));
-            print( _hit.transform.gameObject.name);
 
             if (_hit.transform.gameObject.CompareTag("target")) _hit.transform.gameObject.GetComponent<KeyTile>().onHit();
             if (_hit.transform.gameObject.CompareTag("bomb")) _hit.transform.gameObject.GetComponent<Explosive>().onHit();
