@@ -31,7 +31,7 @@ public class CloudRumble : MonoBehaviour
         }
         else{
             smoothV = (smoothV*99 + Mathf.Min((targetV - target).magnitude , 0.03f) ) /100f;
-            target = Vector2.MoveTowards(target , targetV , smoothV/200);
+            target = Vector2.MoveTowards(target , targetV , Time.timeScale*smoothV/200);
             img.uvRect = new Rect(target,img.uvRect.size);
         }
     }

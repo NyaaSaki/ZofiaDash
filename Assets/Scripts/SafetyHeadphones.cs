@@ -9,7 +9,9 @@ public class SafetyHeadphones : MonoBehaviour
     [SerializeField] bool isSide;
     void Start()
     {
-        
+        sprite = GetComponent<SpriteRenderer>();
+        zofia = FindObjectOfType<PlayerController>();
+        dust = GetComponent<ParticleSystem>().emission;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -27,8 +29,17 @@ public class SafetyHeadphones : MonoBehaviour
         }
     }
     // Update is called once per frame
+    SpriteRenderer sprite;
+    PlayerController zofia;
+    ParticleSystem.EmissionModule dust;
+    [SerializeField] bool hasVisual = false;
     void Update()
     {
+        if(hasVisual){
+            sprite.enabled = zofia.hasPaws && isTouching;
+            dust.enabled = zofia.hasPaws && isTouching && zofia.coyote>0.1f;
+        }
         
+
     }
 }

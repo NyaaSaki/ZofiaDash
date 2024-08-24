@@ -91,13 +91,18 @@ public class PlayerController : MonoBehaviour
     void checkUmbrella(){
         if(hasUmbrella && Input.GetKey(KeyCode.Mouse1)){
             UmbrellaSprite.enabled = true;
-            modified_TermV = termV * (0.1f - moveInput.y > Mathf.Epsilon?0f:0.5f);
+            modified_TermV = termV * (0.1f + (moveInput.y > -Mathf.Epsilon?0f:0.5f));
         }
         else {modified_TermV = termV; UmbrellaSprite.enabled = false;}
+
+        
 
         if(GravUp){
             modified_TermV = modified_TermV/2 - 4;
         }
+
+        if(hasPaws && (SL.isTouching || SR.isTouching)) modified_TermV = modified_TermV *0.2f;
+        print(modified_TermV);
     }
     
     
@@ -178,6 +183,9 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("IsWalk",true);
         bool isAcc = (Mathf.Abs(moveInput.x) > Mathf.Epsilon);
         
+        
+
+        //____Terminal Velocity____
         if(Phys.velocity.y < -modified_TermV) Phys.velocity = new Vector2(Phys.velocity.x,-modified_TermV);
         //if(dashtime < 0.3f && Phys.velocity.y < 0.1f) Phys.velocity = new Vector2(Phys.velocity.x,0.1f);
         Phys.AddForce( Mathf.Pow((Mathf.Abs(forceNeeded) * ((isAcc&&!onPlatform)?acc:(airtime<0.2f?10:tdecc))) ,velpower)* Time.deltaTime * Vector2.right *Mathf.Sign(forceNeeded) );
@@ -319,14 +327,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] public bool freeze = false;
     // Update is called once per frame
-    void Update()
-    {   
-      
-       
-    }
 
-    void FixedUpdate(){
-        Running();
+
+    void Update(){
+       Running();
 
        checkUmbrella();
 
