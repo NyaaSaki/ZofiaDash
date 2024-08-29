@@ -10,7 +10,7 @@ public class EquipSelect : MonoBehaviour
     // Start is called before the first frame update
 
     
-    [SerializeField] List<String> equip;
+    [SerializeField] public List<String> equip;
     [SerializeField] int currentEquip = -1;
     [SerializeField] TextMeshProUGUI itemName;
     void Start()
@@ -19,6 +19,7 @@ public class EquipSelect : MonoBehaviour
     }
 
     public void scroll(PlayerController player){
+        if(equip.Count == 0) return;
         currentEquip = (currentEquip + 1)%equip.Count;
         print(equip[currentEquip]);
         itemName.text = ".> "+ equip[currentEquip];
