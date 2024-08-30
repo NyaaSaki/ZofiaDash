@@ -9,7 +9,7 @@ public class death : MonoBehaviour
     Rigidbody2D rb;
     [SerializeField] GameObject onDeath;
     [SerializeField] GameObject onRespawn;
-    [SerializeField] Vector3 respawn;
+    [SerializeField] public Vector3 respawn;
     void Start()
     {
         coll = GetComponent<BoxCollider2D>();
@@ -66,8 +66,10 @@ public class death : MonoBehaviour
         }
 
         if(other.gameObject.tag == "Respawn"){
-            Debug.Log("Respawned!");
+            //Debug.Log("Respawned!");
             respawn = transform.position;
+            FindObjectOfType<SaveFile>().SpawnPoint = respawn;
+            FindObjectOfType<SaveFile>().saveCache();
 
         }
     }

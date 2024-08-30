@@ -102,7 +102,6 @@ public class PlayerController : MonoBehaviour
         }
 
         if(hasPaws && (SL.isTouching || SR.isTouching)) modified_TermV = modified_TermV *0.2f;
-        print(modified_TermV);
     }
     
     
@@ -323,6 +322,7 @@ public class PlayerController : MonoBehaviour
     {   
         coyote = 0.1f;
         jumpBuffer = 0.5f;
+        try{gameObject.transform.position = FindObjectOfType<SaveFile>().SpawnPoint;} catch (Exception){print("invalid Spawn");};
     }
 
     [SerializeField] public bool freeze = false;

@@ -38,7 +38,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/LaserZof/LaserZof.unity
     guid: e223076e65b8c434aa9f044d5006fa2d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/LaserZof/LaserZofTemplate.unity
     guid: c56e01e52a8ff6f45a184e07eb2a6d52
+  - enabled: 1
+    path: Assets/Scenes/LaserZof/TechDemo2.unity
+    guid: fcc3ab4c6f1789d47914e4198d2ff476
   m_configObjects: {}

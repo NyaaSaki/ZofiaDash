@@ -105,7 +105,7 @@ public class RoomCamera : MonoBehaviour
         if(isZoomed) {CameraTarget = Zofia.transform.position + new Vector3(1,2,-2);
          Camera.GetComponent<Camera>().orthographicSize = 5.4f;
          } 
-        else {Camera.GetComponent<Camera>().orthographicSize = 7.965f - (1-Time.timeScale)*0.2f;}
+        else {Camera.GetComponent<Camera>().orthographicSize = 7.965f - (1-Time.timeScale)*0.3f;}
 
         movecam();
     }
